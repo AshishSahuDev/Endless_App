@@ -74,7 +74,7 @@ TECHNICAL FEASIBILITY VERDICT: ✅ FEASIBLE
 QUESTION: Does the developer have the skills and tools to build this?
 
 3.1 DEVELOPER SKILL ASSESSMENT
-  Ashish Sahu — Java Full Stack Developer, 2+ years experience
+  Ashish Sahu — Java Full Stack Developer, 5+ years experience
 
   Skill               | Level        | Relevance to Endless
   --------------------|--------------|-------------------------------------
