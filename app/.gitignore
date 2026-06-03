@@ -1,0 +1,31 @@
+# Flutter/Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+*.g.dart
+*.freezed.dart
+
+# Android
+android/.gradle/
+android/app/google-services.json
+android/local.properties
+*.keystore
+*.jks
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+
+# IDE
+.idea/
+.vscode/settings.json
+*.swp
+*.lock
+
+# Secrets
+.env
+secrets.dart
+google-services.json
+GoogleService-Info.plist
