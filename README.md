@@ -26,11 +26,11 @@ A cross-platform mobile application (Android + iOS) built with Flutter, targetin
 |---|---|---|
 | Phase 0 | Initiation | ✅ Complete |
 | Phase 1 | Discovery | ✅ Complete |
-| Phase 2 | Specification (SRS + FRD) | 🔜 Next |
-| Phase 3 | Technical Planning | ⬜ Pending |
-| Phase 4 | Project Planning | ⬜ Pending |
-| Phase 5 | Design | ⬜ Pending |
-| Phase 6 | Dev Environment Setup | ⬜ Pending |
+| Phase 2 | Specification (SRS + FRD) | ✅ Complete |
+| Phase 3 | Technical Planning | ✅ Complete |
+| Phase 4 | Project Planning | ✅ Complete |
+| Phase 5 | Design | ✅ Complete |
+| Phase 6 | Dev Environment Setup | ✅ Complete |
 | Phase 7 | Development (7 Sprints) | ⬜ Pending |
 | Phase 8 | Release | ⬜ Pending |
 
@@ -54,11 +54,27 @@ Endless_App/
 │   │   ├── 02_user_personas.md        ← 3 Personas: Riya, Arjun, Zara
 │   │   └── 03_user_story_map.md       ← 64 User Stories across 9 Epics
 │   │
-│   ├── phase-2-specification/         ← SRS + FRD (coming soon)
-│   ├── phase-3-technical-planning/    ← TAD + DB Design + API Contracts (coming soon)
-│   ├── phase-4-project-planning/      ← WBS + Sprint Plan + Risk Register (coming soon)
-│   ├── phase-5-design/                ← Design System + Wireframes + Mockups (coming soon)
-│   └── phase-6-dev-setup/             ← Flutter setup + folder structure + CI/CD (coming soon)
+│   ├── phase-2-specification/
+│   │   ├── 01_srs.md                  ← Software Requirements Specification
+│   │   └── 02_frd.md                  ← Functional Requirements Document
+│   ├── phase-3-technical-planning/
+│   │   ├── 01_technical_architecture.md ← Clean Arch, folder structure, tech decisions
+│   │   ├── 02_database_design.md      ← Isar schemas, queries, seed data
+│   │   └── 03_api_contracts.md        ← Entities, repository interfaces, use cases
+│   ├── phase-4-project-planning/
+│   │   ├── 01_wbs.md                  ← Work Breakdown Structure (198h total)
+│   │   ├── 02_sprint_plan.md          ← 7 Sprints × 2 weeks detailed plan
+│   │   ├── 03_risk_register.md        ← 18 risks with mitigations
+│   │   └── 04_definition_of_done.md   ← Story / Sprint / Release DoD checklists
+│   ├── phase-5-design/
+│   │   ├── 01_design_system.md        ← Colors, typography, spacing, components
+│   │   ├── 02_screen_inventory.md     ← All 28 screens with specs
+│   │   └── 03_wireframes.md           ← ASCII wireframes for 8 key screens
+│   └── phase-6-dev-setup/
+│       ├── 01_flutter_setup_guide.md  ← Flutter install on Linux Ubuntu
+│       ├── 02_project_structure.md    ← pubspec.yaml + full folder tree
+│       ├── 03_coding_standards.md     ← Naming, patterns, lint rules
+│       └── 04_git_workflow.md         ← GitFlow branching + commit conventions
 │
 └── app/                               ← Flutter source code (starts Phase 7)
 ```
