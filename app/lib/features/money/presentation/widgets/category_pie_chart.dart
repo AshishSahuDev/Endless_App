@@ -22,7 +22,9 @@ class _CategoryPieChartState extends State<CategoryPieChart> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.expenseByCategory.isEmpty) return const SizedBox.shrink();
+    if (widget.expenseByCategory.isEmpty || widget.totalExpense <= 0) {
+      return const SizedBox.shrink();
+    }
 
     final entries = widget.expenseByCategory.entries.toList()
       ..sort((a, b) => b.value.compareTo(a.value));

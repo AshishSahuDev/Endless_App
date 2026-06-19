@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/database/database_provider.dart';
+import '../../../../core/services/app_logger.dart';
 import '../../data/datasources/note_local_datasource.dart';
 import '../../data/repositories/note_repository_impl.dart';
 import '../../domain/entities/note.dart';
@@ -35,30 +36,60 @@ class NotesNotifier extends AsyncNotifier<List<Note>> {
   }
 
   Future<void> create(Note note) async {
-    final id = await CreateNoteUseCase(_repository)(note);
-    final created = note.copyWith(id: id);
-    state = AsyncData([...?state.valueOrNull?.where((n) => n.isPinned), created, ...?state.valueOrNull?.where((n) => !n.isPinned)]);
-    ref.invalidateSelf();
+    try {
+      final id = await CreateNoteUseCase(_repository)(note);
+      final created = note.copyWith(id: id);
+      AppLogger.I.action('notes', 'create', data: {'id': id, 'len': note.body.length});
+      state = AsyncData([...?state.valueOrNull?.where((n) => n.isPinned), created, ...?state.valueOrNull?.where((n) => !n.isPinned)]);
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('notes', 'create failed', error: e, stack: s);
+      rethrow;
+    }
   }
 
   Future<void> save(Note note) async {
-    await UpdateNoteUseCase(_repository)(note);
-    ref.invalidateSelf();
+    try {
+      await UpdateNoteUseCase(_repository)(note);
+      AppLogger.I.action('notes', 'save', data: {'id': note.id});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('notes', 'save failed', error: e, stack: s, data: {'id': note.id});
+      rethrow;
+    }
   }
 
   Future<void> delete(int id) async {
-    await DeleteNoteUseCase(_repository)(id);
-    state = AsyncData(state.valueOrNull?.where((n) => n.id != id).toList() ?? []);
+    try {
+      await DeleteNoteUseCase(_repository)(id);
+      AppLogger.I.action('notes', 'delete', data: {'id': id});
+      state = AsyncData(state.valueOrNull?.where((n) => n.id != id).toList() ?? []);
+    } catch (e, s) {
+      AppLogger.I.error('notes', 'delete failed', error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 
   Future<void> togglePin(int id) async {
-    await TogglePinUseCase(_repository)(id);
-    ref.invalidateSelf();
+    try {
+      await TogglePinUseCase(_repository)(id);
+      AppLogger.I.action('notes', 'togglePin', data: {'id': id});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('notes', 'togglePin failed', error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 
   Future<void> toggleArchive(int id) async {
-    await ToggleArchiveUseCase(_repository)(id);
-    ref.invalidateSelf();
+    try {
+      await ToggleArchiveUseCase(_repository)(id);
+      AppLogger.I.action('notes', 'toggleArchive', data: {'id': id});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('notes', 'toggleArchive failed', error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 }
 

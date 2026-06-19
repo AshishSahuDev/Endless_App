@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/database/database_provider.dart';
+import '../../../../core/services/app_logger.dart';
 import '../../data/datasources/savings_goal_local_datasource.dart';
 import '../../data/datasources/transaction_local_datasource.dart';
 import '../../data/repositories/savings_goal_repository_impl.dart';
@@ -64,15 +65,28 @@ class TransactionsNotifier extends AsyncNotifier<List<MoneyTransaction>> {
   }
 
   Future<void> add(MoneyTransaction tx) async {
-    await AddTransactionUseCase(_repository)(tx);
-    ref.invalidateSelf();
-    ref.invalidate(monthlySummaryProvider);
+    try {
+      await AddTransactionUseCase(_repository)(tx);
+      AppLogger.I.action('money', 'addTx',
+          data: {'type': tx.isExpense ? 'expense' : 'income', 'amount': tx.amount, 'cat': tx.categorySlug});
+      ref.invalidateSelf();
+      ref.invalidate(monthlySummaryProvider);
+    } catch (e, s) {
+      AppLogger.I.error('money', 'addTx failed', error: e, stack: s);
+      rethrow;
+    }
   }
 
   Future<void> delete(int id) async {
-    await DeleteTransactionUseCase(_repository)(id);
-    state = AsyncData(state.valueOrNull?.where((t) => t.id != id).toList() ?? []);
-    ref.invalidate(monthlySummaryProvider);
+    try {
+      await DeleteTransactionUseCase(_repository)(id);
+      AppLogger.I.action('money', 'deleteTx', data: {'id': id});
+      state = AsyncData(state.valueOrNull?.where((t) => t.id != id).toList() ?? []);
+      ref.invalidate(monthlySummaryProvider);
+    } catch (e, s) {
+      AppLogger.I.error('money', 'deleteTx failed', error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 }
 
@@ -92,17 +106,36 @@ class SavingsGoalsNotifier extends AsyncNotifier<List<SavingsGoal>> {
   }
 
   Future<void> create(SavingsGoal goal) async {
-    await _repository.createGoal(goal);
-    ref.invalidateSelf();
+    try {
+      await _repository.createGoal(goal);
+      AppLogger.I.action('goals', 'create',
+          data: {'target': goal.targetAmount, 'hasDeadline': goal.deadline != null});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('goals', 'create failed', error: e, stack: s);
+      rethrow;
+    }
   }
 
   Future<void> addToSavings(int id, double amount) async {
-    await _repository.addToSavings(id, amount);
-    ref.invalidateSelf();
+    try {
+      await _repository.addToSavings(id, amount);
+      AppLogger.I.action('goals', 'addFunds', data: {'id': id, 'amount': amount});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('goals', 'addFunds failed', error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 
   Future<void> delete(int id) async {
-    await _repository.deleteGoal(id);
-    state = AsyncData(state.valueOrNull?.where((g) => g.id != id).toList() ?? []);
+    try {
+      await _repository.deleteGoal(id);
+      AppLogger.I.action('goals', 'delete', data: {'id': id});
+      state = AsyncData(state.valueOrNull?.where((g) => g.id != id).toList() ?? []);
+    } catch (e, s) {
+      AppLogger.I.error('goals', 'delete failed', error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 }

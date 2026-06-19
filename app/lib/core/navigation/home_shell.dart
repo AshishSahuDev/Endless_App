@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import '../constants/app_colors.dart';
 import '../constants/app_sizes.dart';
 import '../constants/app_strings.dart';
+import '../services/app_logger.dart';
 import '../../features/alarms/presentation/screens/alarms_screen.dart';
 import '../../features/money/presentation/screens/money_screen.dart';
 import '../../features/notes/presentation/screens/notes_list_screen.dart';
@@ -30,9 +31,13 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     MoneyScreen(),
   ];
 
+  static const _tabNames = ['notes', 'tasks', 'reminders', 'alarms', 'money'];
+
   void _onNavTap(int i) {
     if (i == _currentIndex) return;
     HapticFeedback.lightImpact();
+    AppLogger.I.action('nav', 'tabSwitch',
+        data: {'from': _tabNames[_currentIndex], 'to': _tabNames[i]});
     setState(() => _currentIndex = i);
   }
 

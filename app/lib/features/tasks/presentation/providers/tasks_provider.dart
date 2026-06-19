@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/database/database_provider.dart';
+import '../../../../core/services/app_logger.dart';
 import '../../data/datasources/task_local_datasource.dart';
 import '../../data/repositories/task_repository_impl.dart';
 import '../../domain/entities/task.dart';
@@ -33,34 +34,67 @@ class TasksNotifier extends AsyncNotifier<List<Task>> {
   }
 
   Future<void> create(Task task) async {
-    final tasks = state.valueOrNull ?? [];
-    final taskWithOrder = task.copyWith(sortOrder: tasks.length);
-    await CreateTaskUseCase(_repository)(taskWithOrder);
-    ref.invalidateSelf();
+    try {
+      final tasks = state.valueOrNull ?? [];
+      final taskWithOrder = task.copyWith(sortOrder: tasks.length);
+      await CreateTaskUseCase(_repository)(taskWithOrder);
+      AppLogger.I.action('tasks', 'create',
+          data: {'priority': task.priority.name, 'hasDue': task.dueDate != null});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('tasks', 'create failed', error: e, stack: s);
+      rethrow;
+    }
   }
 
   Future<void> save(Task task) async {
-    await UpdateTaskUseCase(_repository)(task);
-    ref.invalidateSelf();
+    try {
+      await UpdateTaskUseCase(_repository)(task);
+      AppLogger.I.action('tasks', 'save', data: {'id': task.id});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('tasks', 'save failed', error: e, stack: s, data: {'id': task.id});
+      rethrow;
+    }
   }
 
   Future<void> delete(int id) async {
-    await DeleteTaskUseCase(_repository)(id);
-    state = AsyncData(state.valueOrNull?.where((t) => t.id != id).toList() ?? []);
+    try {
+      await DeleteTaskUseCase(_repository)(id);
+      AppLogger.I.action('tasks', 'delete', data: {'id': id});
+      state = AsyncData(state.valueOrNull?.where((t) => t.id != id).toList() ?? []);
+    } catch (e, s) {
+      AppLogger.I.error('tasks', 'delete failed', error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 
   Future<void> toggleComplete(int id) async {
-    await ToggleCompleteUseCase(_repository)(id);
-    ref.invalidateSelf();
+    try {
+      await ToggleCompleteUseCase(_repository)(id);
+      AppLogger.I.action('tasks', 'toggleComplete', data: {'id': id});
+      ref.invalidateSelf();
+    } catch (e, s) {
+      AppLogger.I.error('tasks', 'toggleComplete failed',
+          error: e, stack: s, data: {'id': id});
+      rethrow;
+    }
   }
 
   Future<void> reorder(int from, int to) async {
-    // Optimistic update for smooth drag animation
     final tasks = List<Task>.from(state.valueOrNull ?? []);
     if (from < 0 || to < 0 || from >= tasks.length || to >= tasks.length) return;
     final item = tasks.removeAt(from);
     tasks.insert(to, item);
     state = AsyncData(tasks);
-    await ReorderTasksUseCase(_repository)(from, to);
+    try {
+      await ReorderTasksUseCase(_repository)(from, to);
+      AppLogger.I.action('tasks', 'reorder', data: {'from': from, 'to': to});
+    } catch (e, s) {
+      AppLogger.I.error('tasks', 'reorder failed',
+          error: e, stack: s, data: {'from': from, 'to': to});
+      ref.invalidateSelf();
+      rethrow;
+    }
   }
 }

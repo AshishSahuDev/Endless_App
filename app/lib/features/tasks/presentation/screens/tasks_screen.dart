@@ -5,6 +5,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../../core/services/app_logger.dart';
 import '../../domain/entities/task.dart';
 import '../providers/tasks_provider.dart';
 import '../widgets/task_card.dart';
@@ -198,9 +199,19 @@ class _TasksList extends ConsumerWidget {
 
     return tasksAsync.when(
       loading: () => const Center(child: CircularProgressIndicator(color: kAccentPurple)),
-      error: (_, __) => const Center(
-        child: Text(kError, style: TextStyle(color: kTextSecondary)),
-      ),
+      error: (err, stack) {
+        AppLogger.I.error('tasks', 'load failed', error: err, stack: stack);
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Text(
+              '$kError\n${err.toString()}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: kTextSecondary),
+            ),
+          ),
+        );
+      },
       data: (allTasks) {
         // Filter locally for the tablet forced-tab case
         final tasks = forceTab == null

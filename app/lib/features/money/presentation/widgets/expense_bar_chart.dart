@@ -15,8 +15,9 @@ class ExpenseBarChart extends StatelessWidget {
 
     if (daily.isEmpty) return const SizedBox.shrink();
 
-    final maxY =
-        (daily.values.reduce((a, b) => a > b ? a : b) * 1.25).ceilToDouble();
+    final peak = daily.values.reduce((a, b) => a > b ? a : b);
+    if (peak <= 0) return const SizedBox.shrink();
+    final maxY = (peak * 1.25).ceilToDouble();
 
     final groups = List.generate(daysInMonth, (i) {
       final day = i + 1;

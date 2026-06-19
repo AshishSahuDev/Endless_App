@@ -6,6 +6,7 @@ import 'package:iconsax/iconsax.dart';
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_sizes.dart';
 import '../../../../core/constants/app_strings.dart';
+import '../../../settings/presentation/screens/logs_screen.dart';
 import '../providers/notes_provider.dart';
 import '../widgets/note_card.dart';
 import 'note_editor_screen.dart';
@@ -113,6 +114,13 @@ class _NotesListScreenState extends ConsumerState<NotesListScreen> {
               ref.read(noteSearchQueryProvider.notifier).state = '';
             }
           },
+        ),
+        IconButton(
+          tooltip: 'Diagnostic logs',
+          icon: const Icon(Iconsax.activity, color: kTextSecondary),
+          onPressed: () => Navigator.of(context).push(
+            MaterialPageRoute(builder: (_) => const LogsScreen()),
+          ),
         ),
         const SizedBox(width: kSpaceXS),
       ],
