@@ -11,7 +11,7 @@
 | Sprint 2 | Tasks (Android 8+ · tablet) | ✅ Complete | feat(sprint2) | 2026-06-18 |
 | Sprint 3 | Reminders + Alarms | ✅ Complete | feat(sprint3) | 2026-06-18 |
 | Sprint 4 | Money Manager | ✅ Complete | feat(sprint4) | 2026-06-18 |
-| Sprint 5 | Charts | ⬜ Pending | — | — |
+| Sprint 5 | Charts | ✅ Complete | feat(sprint5) | 2026-06-19 |
 | Sprint 6 | UI Polish | ⬜ Pending | — | — |
 | Sprint 7 | QA + Release | ⬜ Pending | — | — |
 
@@ -65,17 +65,21 @@
   - `savings_goal_sheet.dart`: CreateGoalSheet + AddFundsSheet
   - `MoneyScreen`: TabBar (Transactions | Goals), FAB switches action based on active tab
 
+**Sprint 5 — Charts**
+- `MonthlySummary.dailyExpenses` getter added (Map<int,double> keyed by day-of-month)
+- `ExpenseBarChart`: fl_chart `BarChart` — daily spending bars with purple→pink gradient, day labels at 1/10/20/last, tooltip on tap; hidden for months with no expenses
+- `CategoryPieChart`: fl_chart donut `PieChart` — tap section to reveal %, total expense in center, color-dot legend beside chart
+- `MoneyScreen` Transactions tab: charts scrolled as first `ListView` item when month has expenses; both charts stacked above transaction list
+
 ---
 
 ## Known Issues / Blockers
 
 - AVD emulator not set up (android-36 system image not downloaded) — UI not yet tested on device
-- Sprint 5 (Charts): will add `fl_chart` dependency for expense pie/bar charts
 
 ---
 
 ## Next Up
 
-- **Sprint 5 — Charts**: Add `fl_chart` dependency; implement ExpenseBarChart + CategoryPieChart in MoneyScreen
-- **Sprint 6 — Polish**: Onboarding flow, animations, theme settings
-- **Sprint 7 — QA + Release**: Widget tests, integration tests, release build
+- **Sprint 6 — Polish**: Onboarding flow (3-screen splash/welcome/theme), shimmer loading, animated page transitions, haptic feedback
+- **Sprint 7 — QA + Release**: Widget tests, release build, Play Store prep
