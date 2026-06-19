@@ -31,8 +31,8 @@ A cross-platform mobile application (Android + iOS) built with Flutter, targetin
 | Phase 4 | Project Planning | ✅ Complete |
 | Phase 5 | Design | ✅ Complete |
 | Phase 6 | Dev Environment Setup | ✅ Complete |
-| Phase 7 | Development (7 Sprints) | ⬜ Pending |
-| Phase 8 | Release | ⬜ Pending |
+| Phase 7 | Development (7 Sprints) | ✅ Complete |
+| Phase 8 | Release | ⬜ Pending — see release_checklist.md |
 
 ---
 

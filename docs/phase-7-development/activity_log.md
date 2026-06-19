@@ -13,7 +13,7 @@
 | Sprint 4 | Money Manager | ✅ Complete | feat(sprint4) | 2026-06-18 |
 | Sprint 5 | Charts | ✅ Complete | feat(sprint5) | 2026-06-19 |
 | Sprint 6 | UI Polish | ✅ Complete | feat(sprint6) | 2026-06-19 |
-| Sprint 7 | QA + Release | ⬜ Pending | — | — |
+| Sprint 7 | QA + Release | ✅ Complete | feat(sprint7) | 2026-06-19 |
 
 ---
 
@@ -90,6 +90,28 @@
 
 ---
 
-## Next Up
+**Sprint 7 — QA + Release**
+- **56 tests, 0 failures** across 7 test files:
+  - 5 domain unit test files: Note, Task, MonthlySummary, SavingsGoal, AlarmEntity
+  - 1 widget test file: SavingsGoalCard (7 tests covering render, callbacks, completion state)
+  - 1 smoke test
+- Android release signing: `build.gradle.kts` updated with Kotlin DSL Properties-based keystore config; falls back to debug signing when `key.properties` absent (CI-safe)
+- `android/key.properties.example` template added; `key.properties` already gitignored
+- Release checklist document: `docs/phase-7-development/release_checklist.md`
+  - keytool commands for keystore generation
+  - Play Store submission checklist (screenshots, content rating, privacy policy, data safety form)
+  - Post-submission monitoring guidance
+- README Phase 7 updated to ✅ Complete
 
-- **Sprint 7 — QA + Release**: Widget tests, release build (keystore sign), Play Store prep
+---
+
+## Project Status
+
+**Phase 7 — Development: COMPLETE**
+All 7 sprints done. App ready for Phase 8 (Release).
+
+To release:
+1. Generate keystore with `keytool` (see `release_checklist.md`)
+2. Create `android/key.properties` from the `.example` template
+3. `flutter build appbundle --release`
+4. Upload AAB to Play Console → Internal Testing → Production
