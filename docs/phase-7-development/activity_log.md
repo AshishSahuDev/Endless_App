@@ -105,13 +105,22 @@
 
 ---
 
+---
+
+**Phase 8 — Release**
+- **Keystore**: `endless-release.jks` generated via keytool (CN=Ashish Sahu, OU=Dev, O=Endless App); stored at `android/keystore/` (gitignored); `android/key.properties` created with credentials
+- **Release signing**: `build.gradle.kts` updated to load `key.properties` via `rootProject.file()` with debug fallback for CI
+- **Adaptive launcher icon**: white "E" vector foreground (`ic_launcher_foreground.xml`) on purple (#7C3AED) background; `ic_launcher.xml` + `ic_launcher_round.xml` in `mipmap-anydpi-v26/` for API 26+
+- **Dark native splash**: `splash_background: #0A0A0F` in `colors.xml`; `launch_background.xml` references color resource (no white flash); `LaunchTheme` parent → `Theme.Black.NoTitleBar`
+- **CHANGELOG.md**: v1.0.0 documented with full feature list, technical stack, and platform support
+- **Git tag**: `v1.0.0` pushed to `origin` — commit `7972f93`
+- GitHub: https://github.com/AshishSahuDev/Endless_App
+
+---
+
 ## Project Status
 
-**Phase 7 — Development: COMPLETE**
-All 7 sprints done. App ready for Phase 8 (Release).
+**Phase 8 — Release: COMPLETE**
+App is production-ready. All code is clean (`flutter analyze`: 0 issues), 56 tests pass, keystore configured, adaptive icon and dark splash implemented, v1.0.0 tagged on GitHub.
 
-To release:
-1. Generate keystore with `keytool` (see `release_checklist.md`)
-2. Create `android/key.properties` from the `.example` template
-3. `flutter build appbundle --release`
-4. Upload AAB to Play Console → Internal Testing → Production
+Next step: `flutter build appbundle --release` → upload AAB to Google Play Console.
