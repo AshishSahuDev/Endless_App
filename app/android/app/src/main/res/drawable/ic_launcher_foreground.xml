@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  "E" monogram for Endless app icon.
+  Canvas: 108×108 dp (adaptive icon spec). Safe zone: inner 72×72 dp (18dp margins).
+  Path traces the letter E clockwise from top-left.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="
+          M30,27 L78,27 L78,36 L42,36
+          L42,48 L69,48 L69,57 L42,57
+          L42,69 L78,69 L78,78 L30,78 Z" />
+</vector>
