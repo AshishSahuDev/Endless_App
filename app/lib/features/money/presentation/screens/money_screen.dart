@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/constants/app_colors.dart';
+import '../../domain/entities/monthly_summary.dart';
 import '../../domain/entities/savings_goal.dart';
 import '../providers/money_provider.dart';
 import '../widgets/add_transaction_sheet.dart';
+import '../widgets/category_pie_chart.dart';
+import '../widgets/expense_bar_chart.dart';
 import '../widgets/savings_goal_card.dart';
 import '../widgets/savings_goal_sheet.dart';
 import '../widgets/summary_card.dart';
@@ -137,6 +140,7 @@ class _TransactionsTab extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final txAsync = ref.watch(transactionsProvider);
+    final summaryAsync = ref.watch(monthlySummaryProvider);
 
     return txAsync.when(
       loading: () => const Center(
@@ -152,11 +156,19 @@ class _TransactionsTab extends ConsumerWidget {
             sub: 'Tap + to add income or an expense',
           );
         }
+
+        final MonthlySummary? summary = summaryAsync.valueOrNull;
+        final hasExpenses = summary != null && summary.totalExpense > 0;
+
         return ListView.builder(
           padding: const EdgeInsets.only(top: 4, bottom: 100),
-          itemCount: txList.length,
+          // +1 for charts header when there are expenses
+          itemCount: txList.length + (hasExpenses ? 1 : 0),
           itemBuilder: (_, i) {
-            final tx = txList[i];
+            if (hasExpenses && i == 0) {
+              return _ChartsSection(summary: summary);
+            }
+            final tx = txList[hasExpenses ? i - 1 : i];
             return TransactionCard(
               transaction: tx,
               onDelete: () =>
@@ -165,6 +177,29 @@ class _TransactionsTab extends ConsumerWidget {
           },
         );
       },
+    );
+  }
+}
+
+class _ChartsSection extends StatelessWidget {
+  final MonthlySummary summary;
+  const _ChartsSection({required this.summary});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        ExpenseBarChart(summary: summary),
+        CategoryPieChart(
+          expenseByCategory: summary.expenseByCategory,
+          totalExpense: summary.totalExpense,
+        ),
+        const SizedBox(height: 8),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(16, 4, 16, 0),
+          child: Divider(color: kGlassBorder),
+        ),
+      ],
     );
   }
 }

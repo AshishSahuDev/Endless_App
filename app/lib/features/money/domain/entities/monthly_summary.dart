@@ -27,4 +27,15 @@ class MonthlySummary {
     }
     return map;
   }
+
+  // Daily expense totals keyed by day-of-month (1-31) for bar chart
+  Map<int, double> get dailyExpenses {
+    final map = <int, double>{};
+    for (final t in transactions) {
+      if (t.isExpense) {
+        map[t.date.day] = (map[t.date.day] ?? 0) + t.amount;
+      }
+    }
+    return map;
+  }
 }
