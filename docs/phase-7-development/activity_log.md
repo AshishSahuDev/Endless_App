@@ -12,7 +12,7 @@
 | Sprint 3 | Reminders + Alarms | ✅ Complete | feat(sprint3) | 2026-06-18 |
 | Sprint 4 | Money Manager | ✅ Complete | feat(sprint4) | 2026-06-18 |
 | Sprint 5 | Charts | ✅ Complete | feat(sprint5) | 2026-06-19 |
-| Sprint 6 | UI Polish | ⬜ Pending | — | — |
+| Sprint 6 | UI Polish | ✅ Complete | feat(sprint6) | 2026-06-19 |
 | Sprint 7 | QA + Release | ⬜ Pending | — | — |
 
 ---
@@ -79,7 +79,17 @@
 
 ---
 
+**Sprint 6 — UI Polish**
+- `SplashScreen`: animated logo (elastic scale-in + glow shadow), app name slides up, tagline fades in; checks SharedPreferences → routes to OnboardingScreen or HomeShell
+- `OnboardingScreen`: 3-slide PageView (Notes · Tasks · Money), gradient icon circles with glow, staggered text animations, animated dot indicators, Next/Get Started CTA; saves `has_seen_onboarding` on finish
+- `HomeShell` extracted from `app.dart` → `core/navigation/home_shell.dart` (public) to avoid circular import with onboarding screens
+- Google Fonts Sora applied via `buildDarkTheme()` as default `fontFamily`; removed broken Sora font asset declaration from pubspec (files were absent)
+- Note cards: staggered `fadeIn + slideY` via `flutter_animate` (40ms delay per card)
+- Bottom nav: `AnimatedContainer` pill highlight on active tab (200ms transition)
+- Haptic: `lightImpact()` on nav tap, `mediumImpact()` on task checkbox toggle
+
+---
+
 ## Next Up
 
-- **Sprint 6 — Polish**: Onboarding flow (3-screen splash/welcome/theme), shimmer loading, animated page transitions, haptic feedback
-- **Sprint 7 — QA + Release**: Widget tests, release build, Play Store prep
+- **Sprint 7 — QA + Release**: Widget tests, release build (keystore sign), Play Store prep
