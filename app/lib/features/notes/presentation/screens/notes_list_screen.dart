@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -59,7 +60,15 @@ class _NotesListScreenState extends ConsumerState<NotesListScreen> {
             itemBuilder: (_, i) => NoteCard(
               note: notes[i],
               onTap: () => _openNote(noteId: notes[i].id),
-            ),
+            )
+                .animate(delay: Duration(milliseconds: i * 40))
+                .fadeIn(duration: 300.ms)
+                .slideY(
+                  begin: 0.08,
+                  end: 0,
+                  duration: 300.ms,
+                  curve: Curves.easeOut,
+                ),
           );
         },
       ),

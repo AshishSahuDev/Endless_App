@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:iconsax/iconsax.dart';
@@ -53,7 +54,10 @@ class TaskCard extends ConsumerWidget {
             children: [
               // Checkbox
               GestureDetector(
-                onTap: () => ref.read(tasksProvider.notifier).toggleComplete(task.id),
+                onTap: () {
+                  HapticFeedback.mediumImpact();
+                  ref.read(tasksProvider.notifier).toggleComplete(task.id);
+                },
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 200),
                   width: 22,
